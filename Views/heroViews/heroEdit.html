@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hero - Admin</title>
+
+  <script src="/node_modules/jquery/dist/jquery.js"></script>
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+  <style>
+    .hero-list img {
+      width: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="page-header container">
+      <h1>王者荣耀 <small>英雄管理器</small></h1>
+    </div>
+  </header>
+  <div class="container hero-list">
+    <form id="form">
+      <input type="hidden" name="id" value="{{id}}">
+      <input type="hidden" name="origin_icon" value="{{icon}}">
+      <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">英雄名称</label>
+        <div class="col-sm-10">
+          <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="Email" value="{{name}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">性别</label>
+        <div class="col-sm-10">
+          <!-- 男 -->
+          {{if gender === '男'}}
+          <label class="radio-inline">
+            <input type="radio" name="gender" checked id="inlineRadio1" value="男"> 男
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" id="inlineRadio2" value="女"> 女
+          </label>
+          <!-- 女 -->
+          {{else}}
+          <label class="radio-inline">
+            <input type="radio" name="gender" id="inlineRadio1" value="男"> 男
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" checked id="inlineRadio2" value="女"> 女
+          </label>
+           {{/if}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">头像</label>
+        <div class="col-sm-10">
+          <img src="{{icon}}" alt="">
+          <input type="file" name="icon" id="exampleInputFile">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">保存修改</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- 发送 Ajax -->
+  <script>
+    // 当点击 编辑时，注册一个单击事件
+    $('button').on('click', function (e) {
+      // 使用 formData提交数据 ，还能支持图片上传，会将表单中数据解析成一个对象
+      var formData = new FormData($('#form')[0]);
+      console.log(formData);
+      // 阻止默认提交事件行为
+      e.preventDefault();
+
+      $.ajax({
+        url: '/heroEdit',
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        contentType: false, // 必须设置false才能提交
+        processData: false, // 必须设置false避开jQuery
+        success: function (backDate) {
+          // 如果返回正确  进入首页
+          if (backDate.err_code === 0) {
+            // 进入首页
+            console.log('修改成功');
+            window.location.href = '/';
+          } else {
+            window.alert(backDate.err_message);
+          }
+        }
+      })
+
+    });
+  </script>
+
+
+</body>
+
+</html>

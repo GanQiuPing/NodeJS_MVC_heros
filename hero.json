@@ -1,0 +1,40 @@
+{
+  "heros": [
+    {
+      "name": "小轩棒棒",
+      "gender": "女",
+      "id": 1,
+      "icon": "public\\images\\1-2.png"
+    },
+    {
+      "name": "ffdgfdgsfdg",
+      "gender": "男",
+      "icon": "public\\images\\img_mountains.jpg",
+      "id": 2
+    },
+    {
+      "name": "444444",
+      "gender": "男",
+      "icon": "public\\images\\1-3.png",
+      "id": 3
+    },
+    {
+      "name": "444444",
+      "gender": "男",
+      "icon": "public\\images\\1-3.png",
+      "id": 4
+    },
+    {
+      "name": "哈哈",
+      "gender": "男",
+      "icon": "public\\images\\1-2.png",
+      "id": 5
+    },
+    {
+      "name": "顶替胜多负少",
+      "gender": "男",
+      "icon": "public\\images\\1-1.png",
+      "id": 6
+    }
+  ]
+}

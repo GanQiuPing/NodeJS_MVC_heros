@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hero - Admin</title>
+  <!-- bootstrap布局 -->
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <style>
+    .hero-list img {
+      width: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="page-header container">
+      <h1><a href="/">王者荣耀</a> <small>英雄管理器</small></h1>
+    </div>
+  </header>
+  <div class="container hero-list">
+    <form id="form">
+      <div class="form-group">
+        <label for="exampleInputEmail1">英雄名称</label>
+        <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="请输入英雄名称">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">英雄性别</label>
+        <div class="radio">
+          <label>
+            <input type="radio" name="gender" id="optionsRadios1" value="男" checked>男
+          </label>
+          <label>
+            <input type="radio" name="gender" id="optionsRadios1" value="女" checked>女
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputFile">英雄图片</label>
+        <input type="file" id="exampleInputFile" name="icon">
+        <p class="help-block">请上传英雄图片.</p>
+      </div>
+      <button type="submit" class="btn btn-success">点击保存</button>
+    </form>
+  </div>
+
+  <script>
+    //点击 提交按钮 ，注册单击事件
+    $("#form").on('submit', function (e) {
+
+      // 阻止默认行为
+      e.preventDefault();
+
+      // 使用 FormData 上传文件数据
+      // 会将 form表单中数据解析成一个FormData对象（ 支持文件）
+      // 上传时， 直接用 formData对象作为参数即可
+      // 注意： 我们应该在点击表单提交时 才获取 FormData
+
+      var formData = new FormData($('#form')[0]);
+      // console.log(formData);
+
+      //发送Ajax请求，保存添加英雄数据
+      $.ajax({
+        url: '/heroAdd',
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        contentType: false, //必须设置false才会自动加上正确的Content-Type
+        /*
+        必须设置false才会避开jQuery对 formData的默认处理
+        XMLHttpRequest会对 formData进行正处理
+        */
+        processData: false,
+        success: function (backData) {
+          console.log(backData);
+          //判断返回的状态
+          if (backData.err_code == 0) {
+            //添加成功  返回上一页并且刷新，  self 等同于 window，是window只读引用
+            window.location.href = '/';
+            // window或self.location = document.referrer;
+          } else {
+            //添加失败  
+            window.alert(backData.err_message);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
